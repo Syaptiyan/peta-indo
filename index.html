@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Peta Interaktif Indonesia</title>
+    <meta name="description" content="Peta Interaktif Indonesia dengan data per provinsi">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] },
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-950 text-white font-sans antialiased" x-data="app()">
+
+<!-- NAV -->
+<nav class="fixed top-0 w-full z-50 transition-all duration-300" :class="scrolled ? 'py-3 bg-gray-950/90 backdrop-blur-xl border-b border-white/5' : 'py-5 bg-gray-950/80 backdrop-blur-xl'">
+    <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
+        <a href="#" class="flex items-center gap-3 font-black text-lg">
+            <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center text-white text-sm">
+                <i class="fas fa-map"></i>
+            </div>
+            Peta Indonesia
+        </a>
+        <button class="hamburger md:hidden" onclick="this.classList.toggle('active');document.querySelector('.nav-menu').classList.toggle('show')">
+            <span></span><span></span><span></span>
+        </button>
+        <ul class="nav-menu hidden md:flex gap-7 list-none">
+            <li><a href="#beranda" class="text-sm font-medium text-gray-400 hover:text-white transition-colors" onclick="closeMenu()">Beranda</a></li>
+            <li><a href="#peta" class="text-sm font-medium text-gray-400 hover:text-white transition-colors" onclick="closeMenu()">Peta</a></li>
+            <li><a href="https://syaptiyan.github.io" target="_blank" class="text-sm font-medium text-gray-400 hover:text-white transition-colors">← Portfolio</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- HERO -->
+<section class="min-h-[70vh] flex items-center relative overflow-hidden" id="beranda">
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_0%,rgba(16,185,129,0.12),transparent_60%)]"></div>
+    <div class="hero-grid"></div>
+    <div class="relative z-10 max-w-7xl mx-auto px-6 text-center pt-28">
+        <div class="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/5 border border-white/10 text-sm font-semibold text-gray-400 mb-8">
+            <i class="fas fa-map text-emerald-500"></i> Data Provinsi
+        </div>
+        <h1 class="text-5xl md:text-7xl font-black tracking-tight leading-none mb-6">
+            Peta<br><span class="text-emerald-500">Indonesia</span>
+        </h1>
+        <p class="text-lg text-gray-400 max-w-xl mx-auto mb-12 leading-relaxed">
+            Jelajahi 38 provinsi Indonesia secara interaktif. Klik provinsi di peta atau cari untuk melihat detail.
+        </p>
+        <div class="flex justify-center gap-14 flex-wrap">
+            <div class="text-center">
+                <div class="text-4xl font-black bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">38</div>
+                <div class="text-sm text-gray-500 mt-1">Provinsi</div>
+            </div>
+            <div class="text-center">
+                <div class="text-4xl font-black bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">17K+</div>
+                <div class="text-sm text-gray-500 mt-1">Pulau</div>
+            </div>
+            <div class="text-center">
+                <div class="text-4xl font-black bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">275Jt+</div>
+                <div class="text-sm text-gray-500 mt-1">Penduduk</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- MAP & INFO -->
+<section class="py-20" id="peta">
+    <div class="max-w-7xl mx-auto px-6">
+        <!-- SEARCH -->
+        <div class="max-w-lg mx-auto mb-10">
+            <input type="text" class="w-full px-5 py-3.5 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 placeholder-gray-500 transition" placeholder="Cari provinsi..." x-model="q" @input="filter()">
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- MAP SVG -->
+            <div class="lg:col-span-2 bg-white/[0.03] border border-white/[0.06] rounded-2xl p-6 overflow-hidden">
+                <div class="map-container" id="mapContainer">
+                    <svg viewBox="0 0 1000 450" class="w-full h-auto" id="indonesiaMap">
+                        <!-- Sumatera -->
+                        <path d="M120,80 L180,60 L220,70 L260,90 L280,120 L270,160 L240,190 L200,200 L160,180 L130,150 L110,120 Z" class="province" data-provinsi="aceh" @click="selectProv('aceh')" fill="currentColor"/>
+                        <path d="M180,60 L220,50 L260,60 L280,80 L260,90 L220,70 Z" class="province" data-provinsi="sumut" @click="selectProv('sumut')" fill="currentColor"/>
+                        <path d="M260,60 L300,50 L330,70 L340,100 L320,120 L280,120 L260,90 Z" class="province" data-provinsi="sumbar" @click="selectProv('sumbar')" fill="currentColor"/>
+                        <path d="M280,120 L320,120 L340,140 L330,170 L300,180 L270,160 Z" class="province" data-provinsi="riau" @click="selectProv('riau')" fill="currentColor"/>
+                        <path d="M240,190 L270,160 L300,180 L310,210 L280,230 L240,220 Z" class="province" data-provinsi="jambi" @click="selectProv('jambi')" fill="currentColor"/>
+                        <path d="M200,200 L240,190 L240,220 L220,250 L180,240 L170,220 Z" class="province" data-provinsi="sumsel" @click="selectProv('sumsel')" fill="currentColor"/>
+                        <path d="M160,180 L200,200 L170,220 L140,210 L130,190 Z" class="province" data-provinsi="bengkulu" @click="selectProv('bengkulu')" fill="currentColor"/>
+                        <path d="M130,190 L140,210 L170,220 L180,240 L160,260 L130,250 L110,230 Z" class="province" data-provinsi="lampung" @click="selectProv('lampung')" fill="currentColor"/>
+                        <path d="M280,230 L310,210 L340,220 L350,250 L330,270 L300,260 Z" class="province" data-provinsi="kepri" @click="selectProv('kepri')" fill="currentColor"/>
+                        <path d="M300,260 L330,270 L320,300 L290,290 Z" class="province" data-provinsi="babel" @click="selectProv('babel')" fill="currentColor"/>
+
+                        <!-- Jawa -->
+                        <path d="M380,260 L420,250 L460,255 L500,260 L530,270 L520,285 L480,290 L440,285 L400,280 L380,275 Z" class="province" data-provinsi="banten" @click="selectProv('banten')" fill="currentColor"/>
+                        <path d="M380,275 L400,280 L440,285 L480,290 L510,295 L500,310 L460,305 L420,300 L390,295 Z" class="province" data-provinsi="dki" @click="selectProv('dki')" fill="currentColor"/>
+                        <path d="M390,295 L420,300 L460,305 L500,310 L530,315 L520,330 L480,325 L440,320 L400,315 Z" class="province" data-provinsi="jabar" @click="selectProv('jabar')" fill="currentColor"/>
+                        <path d="M400,315 L440,320 L480,325 L520,330 L550,335 L540,350 L500,345 L460,340 L420,335 Z" class="province" data-provinsi="jateng" @click="selectProv('jateng')" fill="currentColor"/>
+                        <path d="M420,335 L460,340 L500,345 L540,350 L570,355 L560,370 L520,365 L480,360 L440,355 Z" class="province" data-provinsi="jogja" @click="selectProv('jogja')" fill="currentColor"/>
+                        <path d="M440,355 L480,360 L520,365 L560,370 L600,375 L590,390 L550,385 L510,380 L470,375 Z" class="province" data-provinsi="jatim" @click="selectProv('jatim')" fill="currentColor"/>
+
+                        <!-- Kalimantan -->
+                        <path d="M450,100 L500,80 L550,90 L580,120 L570,160 L540,180 L500,170 L470,150 L450,130 Z" class="province" data-provinsi="kalbar" @click="selectProv('kalbar')" fill="currentColor"/>
+                        <path d="M550,90 L600,80 L640,100 L650,140 L630,170 L580,160 L570,120 Z" class="province" data-provinsi="kalteng" @click="selectProv('kalteng')" fill="currentColor"/>
+                        <path d="M630,170 L650,140 L690,150 L700,190 L680,220 L650,210 L630,200 Z" class="province" data-provinsi="kalsel" @click="selectProv('kalsel')" fill="currentColor"/>
+                        <path d="M650,100 L700,90 L740,110 L750,150 L730,180 L690,170 L680,140 Z" class="province" data-provinsi="kaltim" @click="selectProv('kaltim')" fill="currentColor"/>
+                        <path d="M730,180 L750,150 L780,160 L790,200 L770,220 L740,210 Z" class="province" data-provinsi="kaltara" @click="selectProv('kaltara')" fill="currentColor"/>
+
+                        <!-- Sulawesi -->
+                        <path d="M700,230 L730,220 L760,240 L770,280 L750,310 L720,300 L700,270 Z" class="province" data-provinsi="sulut" @click="selectProv('sulut')" fill="currentColor"/>
+                        <path d="M700,270 L720,300 L750,310 L760,340 L740,360 L710,350 L690,320 Z" class="province" data-provinsi="sulteng" @click="selectProv('sulteng')" fill="currentColor"/>
+                        <path d="M690,320 L710,350 L740,360 L750,390 L730,410 L700,400 L680,370 Z" class="province" data-provinsi="sulsel" @click="selectProv('sulsel')" fill="currentColor"/>
+                        <path d="M680,370 L700,400 L730,410 L740,430 L720,440 L690,430 L670,410 Z" class="province" data-provinsi="sultra" @click="selectProv('sultra')" fill="currentColor"/>
+                        <path d="M750,310 L780,300 L800,320 L790,350 L770,340 L760,340 Z" class="province" data-provinsi="gorontalo" @click="selectProv('gorontalo')" fill="currentColor"/>
+                        <path d="M700,230 L680,240 L660,230 L670,210 L700,210 Z" class="province" data-provinsi="sulbar" @click="selectProv('sulbar')" fill="currentColor"/>
+
+                        <!-- Bali & Nusa Tenggara -->
+                        <path d="M600,375 L620,370 L640,375 L635,390 L615,395 L600,390 Z" class="province" data-provinsi="bali" @click="selectProv('bali')" fill="currentColor"/>
+                        <path d="M640,375 L680,370 L710,380 L700,395 L670,390 L640,385 Z" class="province" data-provinsi="ntb" @click="selectProv('ntb')" fill="currentColor"/>
+                        <path d="M710,380 L760,375 L800,385 L790,400 L750,395 L720,390 Z" class="province" data-provinsi="ntt" @click="selectProv('ntt')" fill="currentColor"/>
+
+                        <!-- Maluku -->
+                        <path d="M820,250 L850,240 L880,260 L870,290 L840,280 L820,270 Z" class="province" data-provinsi="maluku" @click="selectProv('maluku')" fill="currentColor"/>
+                        <path d="M850,200 L880,190 L910,210 L900,240 L870,230 L850,220 Z" class="province" data-provinsi="malut" @click="selectProv('malut')" fill="currentColor"/>
+
+                        <!-- Papua -->
+                        <path d="M850,290 L880,280 L920,300 L940,340 L920,370 L880,360 L850,330 Z" class="province" data-provinsi="papbar" @click="selectProv('papbar')" fill="currentColor"/>
+                        <path d="M880,360 L920,370 L960,380 L980,410 L960,430 L920,420 L890,400 Z" class="province" data-provinsi="papua" @click="selectProv('papua')" fill="currentColor"/>
+                        <path d="M850,330 L880,360 L890,400 L870,420 L840,410 L830,380 Z" class="province" data-provinsi="papteng" @click="selectProv('papteng')" fill="currentColor"/>
+                        <path d="M890,400 L920,420 L940,440 L920,450 L890,440 L870,420 Z" class="province" data-provinsi="papsel" @click="selectProv('papsel')" fill="currentColor"/>
+                        <path d="M840,280 L870,290 L880,320 L860,340 L840,330 L830,300 Z" class="province" data-provinsi="papbar" @click="selectProv('papbar')" fill="currentColor"/>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- INFO PANEL -->
+            <div class="space-y-4">
+                <!-- Selected Province -->
+                <div class="bg-white/[0.03] border border-white/[0.06] rounded-2xl p-6" x-show="selected">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 rounded-xl bg-emerald-500/15 text-emerald-400 flex items-center justify-center">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold" x-text="selected?.name"></h3>
+                            <p class="text-xs text-gray-500" x-text="selected?.ibu_kota"></p>
+                        </div>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-500">Ibu Kota</span>
+                            <span class="font-semibold" x-text="selected?.ibu_kota"></span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-500">Luas</span>
+                            <span class="font-semibold" x-text="selected?.luas"></span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-500">Penduduk</span>
+                            <span class="font-semibold" x-text="selected?.penduduk"></span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-500">Pulau</span>
+                            <span class="font-semibold" x-text="selected?.pulau"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Province List -->
+                <div class="bg-white/[0.03] border border-white/[0.06] rounded-2xl p-4 max-h-[500px] overflow-y-auto">
+                    <h4 class="font-bold text-sm mb-3 text-gray-400">Semua Provinsi</h4>
+                    <div class="space-y-1">
+                        <template x-for="p in filtered" :key="p.id">
+                            <button class="w-full text-left px-3 py-2 rounded-lg text-sm hover:bg-white/5 transition flex justify-between items-center" :class="selected?.id===p.id&&'bg-emerald-500/10 text-emerald-400'" @click="selectProv(p.id)">
+                                <span x-text="p.name"></span>
+                                <span class="text-xs text-gray-600" x-text="p.pulau"></span>
+                            </button>
+                        </template>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="py-10 text-center border-t border-white/5">
+    <div class="max-w-7xl mx-auto px-6">
+        <p class="text-gray-500 text-sm mb-4">&copy; 2026 Syaptiyan Ade Putra</p>
+        <div class="flex justify-center gap-4">
+            <a href="https://instagram.com/adee.razer" target="_blank" class="footer-social"><i class="fab fa-instagram"></i></a>
+            <a href="https://github.com/Syaptiyan" target="_blank" class="footer-social"><i class="fab fa-github"></i></a>
+            <a href="https://linkedin.com/in/syaptiyan-ade-putra-b4945120b" target="_blank" class="footer-social"><i class="fab fa-linkedin"></i></a>
+            <a href="https://syaptiyan.github.io" target="_blank" class="footer-social"><i class="fas fa-globe"></i></a>
+        </div>
+    </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
