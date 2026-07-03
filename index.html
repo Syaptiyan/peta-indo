@@ -18,7 +18,10 @@
             }
         }
     </script>
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="icon.svg" type="image/svg+xml">
 </head>
+<div class="scroll-progress" id="scroll-progress"></div>
 <body class="bg-gray-950 text-white font-sans antialiased" x-data="app()">
 
 <!-- NAV -->
@@ -30,7 +33,8 @@
             </div>
             Peta Indonesia
         </a>
-        <button class="hamburger md:hidden" onclick="this.classList.toggle('active');document.querySelector('.nav-menu').classList.toggle('show')">
+        <button class="theme-toggle" id="theme-toggle" title="Ganti tema"><i class="fas fa-moon"></i></button>
+            <button class="hamburger md:hidden" onclick="this.classList.toggle('active');document.querySelector('.nav-menu').classList.toggle('show')">
             <span></span><span></span><span></span>
         </button>
         <ul class="nav-menu hidden md:flex gap-7 list-none">

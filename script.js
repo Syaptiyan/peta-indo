@@ -44,9 +44,37 @@ function app() {
         q: '',
         selected: null,
         scrolled: false,
+        showTop: false,
         init() {
+            this.initTheme();
+            this.initScroll();
             this.filtered = [...this.provinces];
-            window.addEventListener('scroll', () => { this.scrolled = window.scrollY > 50; });
+        },
+        initTheme() {
+            const saved = localStorage.getItem("theme") || "dark";
+            document.documentElement.setAttribute("data-theme", saved);
+            const icon = document.querySelector("#theme-toggle i");
+            if (icon) icon.className = saved === "dark" ? "fas fa-moon" : "fas fa-sun";
+            document.getElementById("theme-toggle")?.addEventListener("click", () => {
+                const current = document.documentElement.getAttribute("data-theme");
+                const next = current === "dark" ? "light" : "dark";
+                document.documentElement.setAttribute("data-theme", next);
+                localStorage.setItem("theme", next);
+                const icon = document.querySelector("#theme-toggle i");
+                if (icon) icon.className = next === "dark" ? "fas fa-moon" : "fas fa-sun";
+            });
+        },
+        initScroll() {
+            const bar = document.getElementById("scroll-progress");
+            window.addEventListener("scroll", () => {
+                this.scrolled = window.scrollY > 50;
+                this.showTop = window.scrollY > 400;
+                if (bar) {
+                    const scrollTop = window.scrollY;
+                    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                    bar.style.width = (scrollTop / docHeight * 100) + "%";
+                }
+            });
         },
         filter() {
             const q = this.q.toLowerCase();
