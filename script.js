@@ -50,7 +50,7 @@ function app() {
         },
         filter() {
             const q = this.q.toLowerCase();
-            this.filtered = this.provinces.filter(p => p.name.toLowerCase().includes(q) || p.ibu_kota.toLowerCase().includes(q));
+            this.filtered = this.provinces.filter(p => p.name.toLowerCase().includes(q) || (p.ibu_kota || '').toLowerCase().includes(q));
         },
         selectProv(id) {
             this.selected = this.provinces.find(p => p.id === id);
