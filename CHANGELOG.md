@@ -4,6 +4,23 @@ Catatan riwayat perubahan project Peta Indonesia.
 
 ---
 
+## [3.0.0] - 2026-07-03
+
+### 🚀 Fitur Baru
+
+#### 🌍 Info Gempa BMKG
+- Data gempa terkini dari BMKG
+- Magnitudo, kedalaman, wilayah
+- Tanggal & waktu kejadian
+- Info dirasakan (skala MMI)
+- Section alert di halaman utama
+
+### 📝 Dokumentasi
+
+- Tambah README.md lengkap
+
+---
+
 ## [2.0.0] - 2026-07-03
 
 ### 🚀 Fitur Baru
