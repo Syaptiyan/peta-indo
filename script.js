@@ -45,9 +45,12 @@ function app() {
         selected: null,
         scrolled: false,
         showTop: false,
+        gempa: null,
+        gempaLoading: true,
         init() {
             this.initTheme();
             this.initScroll();
+            this.fetchGempa();
             this.filtered = [...this.provinces];
         },
         initTheme() {
@@ -84,6 +87,14 @@ function app() {
             this.selected = this.provinces.find(p => p.id === id);
             document.querySelectorAll('.province').forEach(el => el.classList.remove('active'));
             document.querySelector(`[data-provinsi="${id}"]`)?.classList.add('active');
+        },
+        async fetchGempa() {
+            try {
+                const res = await fetch('https://data.bmkg.go.id/DataMKG/TEWS/autogempa.json');
+                const data = await res.json();
+                this.gempa = data.Infogempa.gempa;
+            } catch (e) { console.error('Gagal fetch gempa:', e); }
+            this.gempaLoading = false;
         }
     };
 }

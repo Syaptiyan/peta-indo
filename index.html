@@ -76,6 +76,42 @@
     </div>
 </section>
 
+<!-- GEMPA TERKINI -->
+<section class="py-10 border-b border-white/5" x-show="!gempaLoading && gempa">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="bg-red-500/10 border border-red-500/20 rounded-2xl p-6">
+            <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-red-500/20 text-red-500 flex items-center justify-center">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <div>
+                    <h3 class="font-bold text-red-500">Gempa Terkini</h3>
+                    <p class="text-xs text-gray-500">Sumber: BMKG</p>
+                </div>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div>
+                    <div class="text-xs text-gray-500 mb-1">Tanggal</div>
+                    <div class="text-sm font-bold" x-text="gempa?.Tanggal">-</div>
+                </div>
+                <div>
+                    <div class="text-xs text-gray-500 mb-1">Magnitudo</div>
+                    <div class="text-sm font-bold text-red-500" x-text="gempa?.Magnitude + ' SR'">-</div>
+                </div>
+                <div>
+                    <div class="text-xs text-gray-500 mb-1">Kedalaman</div>
+                    <div class="text-sm font-bold" x-text="gempa?.Kedalaman">-</div>
+                </div>
+                <div>
+                    <div class="text-xs text-gray-500 mb-1">Wilayah</div>
+                    <div class="text-sm font-bold" x-text="gempa?.Wilayah">-</div>
+                </div>
+            </div>
+            <div class="mt-4 text-xs text-gray-500" x-text="'Dirasakan: ' + gempa?.Dirasakan"></div>
+        </div>
+    </div>
+</section>
+
 <!-- MAP & INFO -->
 <section class="py-20" id="peta">
     <div class="max-w-7xl mx-auto px-6">
