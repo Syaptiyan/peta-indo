@@ -1,10 +1,10 @@
 # 🗺️ Peta Indonesia
 
-[![GitHub Stars](https://img.shields.io/github/stars/Syaptiyan/peta-indo?style=social)](https://github.com/Syaptiyan/peta-indo/stargazers)
-[![GitHub Pages](https://img.shields.io/badge/GitHub-Pages-blue?style=flat-square&logo=github)](https://syaptiyan.github.io/peta-indo/)
+[![GitHub Stars](https://img.shields.io/github/stars/Syaptiyan/peta-indonesia?style=social)](https://github.com/Syaptiyan/peta-indonesia/stargazers)
+[![GitHub Pages](https://img.shields.io/badge/GitHub-Pages-blue?style=flat-square&logo=github)](https://syaptiyan.github.io/peta-indonesia/)
 [![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)](LICENSE)
-[![Maintained](https://img.shields.io/badge/Maintained-Yes-brightgreen?style=flat-square)](https://github.com/Syaptiyan/peta-indo)
-[![PRs Welcome](https://img.shields.io/badge/PRs-Welcome-orange?style=flat-square)](https://github.com/Syaptiyan/peta-indo/pulls)
+[![Maintained](https://img.shields.io/badge/Maintained-Yes-brightgreen?style=flat-square)](https://github.com/Syaptiyan/peta-indonesia)
+[![PRs Welcome](https://img.shields.io/badge/PRs-Welcome-orange?style=flat-square)](https://github.com/Syaptiyan/peta-indonesia/pulls)
 
 Peta Interaktif Indonesia dengan data per provinsi dan informasi gempa terkini dari BMKG.
 
