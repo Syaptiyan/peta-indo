@@ -4,6 +4,17 @@ Catatan riwayat perubahan project Peta Indonesia.
 
 ---
 
+## [3.1.0] - 2026-07-04
+
+### 📝 SEO & Social
+
+- Tambah `og:image` untuk preview di WhatsApp/Twitter/Discord
+- Tambah `og:url` untuk canonical URL
+- Tambah `twitter:card` untuk Twitter preview
+- Tambah badge PRs Welcome di README
+
+---
+
 ## [3.0.0] - 2026-07-03
 
 ### 🚀 Fitur Baru
