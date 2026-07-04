@@ -1,5 +1,9 @@
 # 🗺️ Peta Indonesia
 
+[![GitHub Pages](https://img.shields.io/badge/GitHub-Pages-blue?style=flat-square&logo=github)](https://syaptiyan.github.io/peta-indo/)
+[![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)](LICENSE)
+[![Maintained](https://img.shields.io/badge/Maintained-Yes-brightgreen?style=flat-square)](https://github.com/Syaptiyan/peta-indo)
+
 Peta Interaktif Indonesia dengan data per provinsi dan informasi gempa terkini dari BMKG.
 
 ## ✨ Fitur
